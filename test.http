@@ -1,0 +1,14 @@
+POST localhost:8080/people
+Content-Type: application/json
+
+{
+  "name": "potato1",
+  "birth": "1910-01-02",
+  "status": "Alive"
+}
+
+###
+GET localhost:8080/people?page=0&size=1
+Content-Type: Application/json
+Accept: application/hal+json
+

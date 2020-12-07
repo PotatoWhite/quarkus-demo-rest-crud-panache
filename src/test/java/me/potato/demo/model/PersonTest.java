@@ -25,25 +25,30 @@ public class PersonTest {
     Person person=new Person();
     person.setName("Stef");
     person.setBirth(LocalDate.of(1910, Month.FEBRUARY, 1));
-    person.setPersonStatus(PersonStatus.Alive);
+    person.setStatus(Status.Alive);
     person.persist();
 
-    Person persoGone=new Person();
-    persoGone.setName("man one");
-    persoGone.setBirth(LocalDate.of(1911, Month.FEBRUARY, 1));
-    persoGone.setPersonStatus(PersonStatus.Gone);
-    persoGone.persist();
+    Person personGone=new Person();
+    personGone.setName("man one");
+    personGone.setBirth(LocalDate.of(1911, Month.FEBRUARY, 2));
+    personGone.setStatus(Status.Gone);
+    personGone.persist();
 
 
     Person personMissing=new Person();
     personMissing.setName("man two");
-    personMissing.setBirth(LocalDate.of(1912, Month.FEBRUARY, 1));
-    personMissing.setPersonStatus(PersonStatus.Missing);
+    personMissing.setBirth(LocalDate.of(1912, Month.FEBRUARY, 3));
+    personMissing.setStatus(Status.Missing);
     personMissing.persist();
 
 
     if(!person.isPersistent())
       throw new Exception("could not persist");
+    if(!personGone.isPersistent())
+      throw new Exception("could not persist");
+    if(!personMissing.isPersistent())
+      throw new Exception("could not persist");
+
 
     var alive=Person.findAlive();
     alive.stream()
@@ -53,12 +58,15 @@ public class PersonTest {
     test01.forEach(item -> log.info(item.toString()));
 
     var countAll=Person.count();
-    assertEquals(countAll, 1);
+    assertEquals(countAll, test01.size());
 
-    var countGone=Person.count("status", "Gone");
-    assertEquals(countGone, 0);
+    var countGone=Person.count("status", Status.Gone);
+    assertEquals(countGone, 1l);
 
-    var countAlive=Person.count("status", "Alive");
-    assertEquals(countAlive, 1);
+    var countAlive=Person.count("status", Status.Alive);
+    assertEquals(countAlive, 1l);
+
+    var manTwo=Person.findByName("man two");
+    assertEquals(manTwo.getBirth(), LocalDate.of(1912, Month.FEBRUARY, 3));
   }
 }

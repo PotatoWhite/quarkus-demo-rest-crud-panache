@@ -1,5 +1,5 @@
 package me.potato.demo.model;
 
-public enum PersonStatus {
+public enum Status {
   Alive, Gone, Missing
 }

@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Cacheable;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -19,22 +16,22 @@ import java.util.List;
 @Cacheable
 public class Person extends PanacheEntity {
 
+  @Column(unique=true)
   private String    name;
   private LocalDate birth;
 
   @Enumerated(EnumType.STRING)
-  private PersonStatus personStatus;
+  private Status status;
 
   public static Person findByName(String name) {
     return find("name", name).firstResult();
   }
 
   public static List<Person> findAlive() {
-    return list("status", PersonStatus.Alive);
+    return list("status", Status.Alive);
   }
 
   public static void deleteStefs() {
     delete("name", "Stef");
   }
-
 }
