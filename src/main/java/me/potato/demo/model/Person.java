@@ -13,6 +13,7 @@ import java.util.List;
 @Setter
 @ToString
 @Entity
+@Table(name="people")
 @Cacheable
 public class Person extends PanacheEntity {
 
